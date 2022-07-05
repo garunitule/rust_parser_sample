@@ -1,3 +1,5 @@
+use std::io;
+
 // 位置を記録
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 struct Loc(usize, usize);
@@ -83,6 +85,7 @@ impl LexError {
     }
 }
 
+// 字句解析
 fn lex(input: &str) -> Result<Vec<Token>, LexError> {
     let mut tokens = Vec::new();
     let input = input.as_bytes();
@@ -177,6 +180,15 @@ fn skip_spaces(input: &[u8], pos: usize) -> Result<((), usize), LexError> {
     Ok(((), pos))
 }
 
+fn prompt(s: &str) -> io::Result<()> {
+    use std::io::{stdout, Write};
+
+    let stdout = stdout();
+    let mut stdout = stdout.lock();
+    stdout.write(s.as_bytes())?;
+    stdout.flush()
+}
+
 #[test]
 fn test_lexer() {
     assert_eq!(
@@ -195,6 +207,20 @@ fn test_lexer() {
 }
 
 fn main() {
-    println!("Hello, world!");
-    println!("{:?}", lex("1 + 2 * 3 - -10"));
+    use std::io::{stdin, BufRead, BufReader};
+
+    let stdin = stdin();
+    let stdin = stdin.lock();
+    let stdin = BufReader::new(stdin);
+    let mut lines = stdin.lines();
+
+    loop {
+        prompt("> ").unwrap();
+        if let Some(Ok(line)) = lines.next() {
+            let token = lex(&line);
+            println!("{:?}", token);
+        } else {
+            break;
+        }
+    }
 }
