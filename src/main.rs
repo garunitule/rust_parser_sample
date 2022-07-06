@@ -10,7 +10,7 @@ fn main() {
     let mut lines = stdin.lines();
 
     loop {
-        lexer::prompt("> ").unwrap();
+        utility::prompt("> ").unwrap();
         if let Some(Ok(line)) = lines.next() {
             let token = lexer::lex(&line);
             println!("{:?}", token);

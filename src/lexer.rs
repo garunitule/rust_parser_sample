@@ -1,6 +1,5 @@
-use std::io;
-use crate::utility::Loc;
 use crate::utility::Annot;
+use crate::utility::Loc;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum TokenKind {
@@ -156,15 +155,6 @@ fn lex_number(input: &[u8], pos: usize) -> Result<(Token, usize), LexError> {
 fn skip_spaces(input: &[u8], pos: usize) -> Result<((), usize), LexError> {
     let pos = recognize_many(input, pos, |b| b" \n\t".contains(&b));
     Ok(((), pos))
-}
-
-pub fn prompt(s: &str) -> io::Result<()> {
-    use std::io::{stdout, Write};
-
-    let stdout = stdout();
-    let mut stdout = stdout.lock();
-    stdout.write(s.as_bytes())?;
-    stdout.flush()
 }
 
 #[test]
