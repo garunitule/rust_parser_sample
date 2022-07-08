@@ -1,3 +1,4 @@
+use crate::error::ParseError;
 use crate::lexer::{Token, TokenKind};
 use crate::utility::{Annot, Loc};
 use std::iter::Peekable;
@@ -76,17 +77,6 @@ impl BinOp {
     fn div(loc: Loc) -> Self {
         Self::new(BinOpKind::Div, loc)
     }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub enum ParseError {
-    UnexpectedToken(Token),
-    NotExpression(Token),
-    NotOperator(Token),
-    UnclosedOpenParen(Token),
-    // 式の解析が終わったのにトークンが残っている
-    RedundantExpression(Token),
-    Eof,
 }
 
 pub fn parse(tokens: Vec<Token>) -> Result<Ast, ParseError> {

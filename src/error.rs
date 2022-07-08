@@ -1,3 +1,4 @@
+use crate::lexer::Token;
 use crate::utility::{Annot, Loc};
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -16,4 +17,15 @@ impl LexError {
     pub fn eof(loc: Loc) -> Self {
         Self::new(LexErrorKind::Eof, loc)
     }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub enum ParseError {
+    UnexpectedToken(Token),
+    NotExpression(Token),
+    NotOperator(Token),
+    UnclosedOpenParen(Token),
+    // 式の解析が終わったのにトークンが残っている
+    RedundantExpression(Token),
+    Eof,
 }
