@@ -4,18 +4,18 @@ use std::io;
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Loc(pub usize, pub usize);
 
-// impl Loc {
-//     pub fn merge(&self, other: &Loc) -> Loc {
-//         use std::cmp::{max, min};
-//         Loc(min(self.0, other.0), max(self.1, other.1))
-//     }
-// }
+impl Loc {
+    pub fn merge(&self, other: &Loc) -> Loc {
+        use std::cmp::{max, min};
+        Loc(min(self.0, other.0), max(self.1, other.1))
+    }
+}
 
 // 値を位置を記録
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Annot<T> {
-    value: T,
-    loc: Loc,
+    pub value: T,
+    pub loc: Loc,
 }
 
 impl<T> Annot<T> {
