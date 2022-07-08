@@ -1,3 +1,5 @@
+use crate::error::LexError;
+use crate::error::LexErrorKind;
 use crate::utility::Annot;
 use crate::utility::Loc;
 
@@ -41,24 +43,6 @@ impl Token {
 
     pub fn rparen(loc: Loc) -> Self {
         Self::new(TokenKind::RParen, loc)
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub enum LexErrorKind {
-    InvalidChar(char),
-    Eof,
-}
-
-type LexError = Annot<LexErrorKind>;
-
-impl LexError {
-    fn invalid_char(c: char, loc: Loc) -> Self {
-        Self::new(LexErrorKind::InvalidChar(c), loc)
-    }
-
-    fn eof(loc: Loc) -> Self {
-        Self::new(LexErrorKind::Eof, loc)
     }
 }
 
