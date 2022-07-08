@@ -13,8 +13,9 @@ fn main() {
     loop {
         utility::prompt("> ").unwrap();
         if let Some(Ok(line)) = lines.next() {
-            let token = lexer::lex(&line);
-            println!("{:?}", token);
+            let tokens = lexer::lex(&line).unwrap();
+            let ast = ast::parse(tokens).unwrap();
+            println!("{:?}", ast);
         } else {
             break;
         }

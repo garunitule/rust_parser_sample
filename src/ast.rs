@@ -3,7 +3,7 @@ use crate::utility::{Annot, Loc};
 use std::iter::Peekable;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-enum AstKind {
+pub enum AstKind {
     Num(u64),
     UniOp { op: UniOp, e: Box<Ast> },
     BinOp { op: BinOp, l: Box<Ast>, r: Box<Ast> },
@@ -79,7 +79,7 @@ impl BinOp {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-enum ParseError {
+pub enum ParseError {
     UnexpectedToken(Token),
     NotExpression(Token),
     NotOperator(Token),
@@ -89,7 +89,7 @@ enum ParseError {
     Eof,
 }
 
-fn parse(tokens: Vec<Token>) -> Result<Ast, ParseError> {
+pub fn parse(tokens: Vec<Token>) -> Result<Ast, ParseError> {
     let mut tokens = tokens.into_iter().peekable();
     let ret = parse_expr(&mut tokens)?;
     match tokens.next() {
