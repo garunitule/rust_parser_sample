@@ -3,6 +3,8 @@ mod error;
 mod lexer;
 mod utility;
 
+use crate::ast::{Ast};
+
 fn main() {
     use std::io::{stdin, BufRead, BufReader};
 
@@ -14,8 +16,12 @@ fn main() {
     loop {
         utility::prompt("> ").unwrap();
         if let Some(Ok(line)) = lines.next() {
-            let tokens = lexer::lex(&line).unwrap();
-            let ast = ast::parse(tokens).unwrap();
+            let ast = match line.parse::<Ast>() {
+                Ok(ast) => ast,
+                Err(e) => {
+                    unimplemented!()
+                }
+            };
             println!("{:?}", ast);
         } else {
             break;

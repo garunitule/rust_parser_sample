@@ -29,3 +29,21 @@ pub enum ParseError {
     RedundantExpression(Token),
     Eof,
 }
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub enum Error {
+    Lexer(LexError),
+    Parser(ParseError),
+}
+
+impl From<LexError> for Error {
+    fn from(e: LexError) -> Self {
+        Error::Lexer(e)
+    }
+}
+
+impl From<ParseError> for Error {
+    fn from(e: ParseError) -> Self {
+        Error::Parser(e)
+    }
+}

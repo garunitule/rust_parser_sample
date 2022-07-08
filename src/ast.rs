@@ -1,7 +1,9 @@
-use crate::error::ParseError;
+use crate::error::{Error, ParseError};
+use crate::lexer;
 use crate::lexer::{Token, TokenKind};
 use crate::utility::{Annot, Loc};
 use std::iter::Peekable;
+use std::str::FromStr;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum AstKind {
@@ -10,7 +12,7 @@ pub enum AstKind {
     BinOp { op: BinOp, l: Box<Ast>, r: Box<Ast> },
 }
 
-type Ast = Annot<AstKind>;
+pub type Ast = Annot<AstKind>;
 
 impl Ast {
     fn num(n: u64, loc: Loc) -> Self {
@@ -30,6 +32,16 @@ impl Ast {
             },
             loc,
         )
+    }
+}
+
+impl FromStr for Ast {
+    type Err = Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let tokens = lexer::lex(s)?;
+        let ast = parse(tokens)?;
+        Ok(ast)
     }
 }
 

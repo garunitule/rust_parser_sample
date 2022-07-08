@@ -1,5 +1,4 @@
 use crate::error::LexError;
-use crate::error::LexErrorKind;
 use crate::utility::Annot;
 use crate::utility::Loc;
 
